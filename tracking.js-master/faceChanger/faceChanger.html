@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>tracking.js - face with camera</title>
+  <link rel="stylesheet" href="../examples/assets/demo.css">
+
+  <script src="../build/tracking-min.js"></script>
+  <script src="../build/data/face-min.js"></script>
+  <!-- <script src="../node_modules/dat.gui/build/dat.gui.min.js"></script> -->
+  <script src="../build/data/eye-min.js"></script>
+ <script src="../build/data/mouth-min.js"></script>
+ <!-- <script src="../node_modules/dat.gui/build/dat.gui.min.js"></script> -->
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.6.5/dat.gui.js"></script>
+  <script src="../examples/assets/stats.min.js"></script>
+
+
+  <style>
+  video, canvas {
+    margin-left: 230px;
+    margin-top: 120px;
+    position: absolute;
+  }
+
+  button{
+    height: 70px;
+    width: 15rem;
+    margin-left: 5rem;
+    font-size: 2rem;
+    background-color: blue;
+
+  }
+
+  img{
+    transform: rotatey(.5);
+
+  }
+  </style>
+</head>
+<body>
+
+  <div class="buttons">
+    <button type="button" name="button" onclick="none()">OFF</button>
+    <button type="button" name="button" onclick="one()">Alien</button>
+    <button type="button" name="button" onclick="two()">Nick Cage</button>
+    <button type="button" name="button" onclick="third()">Rick</button>
+
+
+
+  </div>
+  <div class="demo-title">
+    <p><a href="http://trackingjs.com" target="_parent">tracking.js</a> － get user's webcam and detect faces</p>
+  </div>
+
+  <div class="demo-frame">
+    <div class="demo-container">
+      <video id="video" width="320" height="240" preload autoplay loop muted></video>
+      <canvas id="canvas" width="320" height="240"></canvas>
+    </div>
+  </div>
+
+
+
+  <script>
+var img = document.createElement("img");
+img.src = '';
+
+function none(){
+  img.src = '';
+};
+
+function one(){
+  img.src = '../img copy/alien.png'
+};
+
+function two(){
+  img.src = '../img copy/nick1.png'
+};
+
+
+function third(){
+  img.src = '../img copy/rick.png'
+};
+
+
+
+
+    window.onload = function() {
+      var video = document.getElementById('video');
+      var canvas = document.getElementById('canvas');
+      var context = canvas.getContext('2d');
+      var tracker = new tracking.ObjectTracker('face');
+      tracker.setInitialScale(4);
+      tracker.setStepSize(2);
+      tracker.setEdgesDensity(0.1);
+      tracking.track('#video', tracker, { camera: true });
+      tracker.on('track', function(event) {
+        context.clearRect(0, 0, canvas.width, canvas.height);
+        event.data.forEach(function(rect) {
+          context.drawImage(img,rect.x-5,rect.y-50,rect.width+11,rect.height*1.9);
+
+
+        });
+      });
+      var gui = new dat.GUI();
+      gui.add(tracker, 'edgesDensity', 0.1, 0.5).step(0.01);
+      gui.add(tracker, 'initialScale', 1.0, 10.0).step(0.1);
+      gui.add(tracker, 'stepSize', 1, 5).step(0.1);
+    };
+  </script>
+
+</body>
+</html>
