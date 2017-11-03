@@ -1,1 +1,1 @@
-# faceChanger
+This is an App that I built using the Tracking.js library where you can change your face to an alien, Nick Cage, or Rick from Rick and morty. If you are familiar with snapchat filters it kind of works the same way, it covers your face with a picture and moves based on the movement of your face. To use this app clone the repository and go into your terminal, cd into the file folder and run python "-m SimpleHTTPServer" then got to the localhost site click on tracking.js master then click on the faceChanger and have Fun!
